@@ -1,0 +1,40 @@
+swagger: "2.0"
+info:
+  title: token-details-api
+  description: API to read validated token details
+  version: 1.0.0
+paths:
+  /validatetoken:
+    get:
+      x-google-backend:
+        address: https://CLOUD_FUNCTION_URL/validatetoken
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/UserDetails'
+          description: Successful response
+      description: Returns details from user details header.
+      operationId: getTokenDetails
+      summary: Get details from validated token
+definitions:
+  UserDetails:
+    title: Root Type for UserDetails
+    description: User details object created from information in headers
+    type: object
+    properties:
+      userId:
+        type: string
+      email:
+        type: string      
+securityDefinitions:
+  firebase:
+    flow: implicit
+    authorizationUrl: ''
+    scopes: {}
+    type: oauth2
+    x-google-issuer: "https://securetoken.google.com/fir-auth-demo-35663"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "fir-auth-demo-35663"
+security:
+  - firebase: []
+
